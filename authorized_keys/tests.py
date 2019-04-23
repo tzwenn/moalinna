@@ -35,3 +35,7 @@ class PubSSHKeyTests(TestCase):
 		with self.assertRaises(ValidationError):
 			PubSSHKey.create("ssh-rsa Bröken sheep@pasture")
 
+	def test_invalid_file(self):
+		with self.assertRaises(ValidationError):
+			PubSSHKey.create("Badly Bröken Beyond Repair")
+

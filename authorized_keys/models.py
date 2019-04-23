@@ -10,7 +10,7 @@ class PubSSHKey(models.Model):
 	keytype = models.CharField(max_length=32)
 	"""key type as of sshd(8)"""
 
-	pubkey = models.TextField()
+	pubkey = models.BinaryField()
 	"""Public key (decoded from base64)"""
 
 	comment = models.CharField(max_length=64)
@@ -20,7 +20,7 @@ class PubSSHKey(models.Model):
 	"""User defined title"""
 
 	creation_date = models.DateTimeField(auto_now_add=True)
-	last_used = models.DateTimeField()
+	last_used = models.DateTimeField(null=True, blank=True)
 	
 	user = models.ForeignKey(User,
 			related_name='pubkey',
@@ -32,6 +32,14 @@ class PubSSHKey(models.Model):
 		"""Computes SHA1 fingerprint"""
 		fp = hashlib.md5(self.pubkey).hexdigest()
 		return ':'.join(a + b for a, b in zip(fp[::2], fp[1::2]))
+
+	@property
+	def AUTHORIZED_KEYS(self):
+		"""Reconstructs sshd(8) AUTHORIZED_KEYS format"""
+		return "{} {}".format(self.keytype, base64.b64encode(self.pubkey).decode('ascii'))
+
+	def __str__(self):
+		return "PubSSHKey<{} of {}>".format(repr(self.title), self.user.username)
 
 	class Meta:
 		unique_together = (("keytype", "pubkey"), )
