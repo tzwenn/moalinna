@@ -3,40 +3,52 @@
 {% block content %}
 
 {% if messages %}
-<ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <div class="notification is-{{ message.tags }}">
+        {{ message }}
+    </div>
     {% endfor %}
-</ul>
 {% endif %}
 
-<h2 class="subtitle">Add a key</h2>
-<form action="{% url 'authorized_keys:add' %}" method="post">
-{% csrf_token %}
-    <label for="key">Key</label><br>
-    <textarea name="content" id="key_text" placeholder="The content of your keyfile" required="required"></textarea>
-    <br />
+<h2 class="title">Add a key</h2>
+<div class="columns">
+    <div class="column is-two-thirds">
+        <form action="{% url 'authorized_keys:add' %}" method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label" for="content">Key</label>
+                <div class="control">
+                    <textarea class="textarea" name="content" id="key_text" placeholder="The content of your keyfile" required="required"></textarea>
+                </div>
+            </div>
 
-    <label for="title">Title (optional)</label><br>
-    <input type="text" name="title" id="key_title" placeholder="your key's title">
-    <br />
+            <div class="field">
+                <label class="label" for="title">Title (optional)</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" id="key_title" placeholder="your key's title">
+                </div>
+            </div>
 
-	<input type="submit" value="Add Key" />
-</form>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" type="submit" >Add Key</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% if pubsshkey_list %}
-<h2 class="subtitle">Your keys</h2>
+<h2 class="title">Your keys</h2>
 
 <ul>
 {% for pubsshkey in pubsshkey_list %}
-    <li><b>{% firstof pubsshkey.title pubsshkey.comment %}</b>&nbsp;{{ pubsshkey.fingerprint }}
-        <div>
-        <form action="{% url 'authorized_keys:delete' pubsshkey.id %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Delete" />
-        </form>
-        </div>
-    </li>
+    <form action="{% url 'authorized_keys:delete' pubsshkey.id %}" method="post">
+        {% csrf_token %}
+        <li><b>{% firstof pubsshkey.title pubsshkey.comment %}</b>&nbsp;{{ pubsshkey.fingerprint }}
+        <button class="button icon is-danger" type="submit"><i class="fas fa-trash fa-xs"></i></button>
+        </li>
+    </form>
 {% endfor %}
 </ul>
 
