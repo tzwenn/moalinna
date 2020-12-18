@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
@@ -6,7 +10,7 @@
 </ul>
 {% endif %}
 
-<h2>Add a key</h2>
+<h2 class="subtitle">Add a key</h2>
 <form action="{% url 'authorized_keys:add' %}" method="post">
 {% csrf_token %}
     <label for="key">Key</label><br>
@@ -21,7 +25,7 @@
 </form>
 
 {% if pubsshkey_list %}
-<h2>Your keys</h2>
+<h2 class="subtitle">Your keys</h2>
 
 <ul>
 {% for pubsshkey in pubsshkey_list %}
@@ -37,3 +41,5 @@
 </ul>
 
 {% endif %}
+
+{% endblock %}
