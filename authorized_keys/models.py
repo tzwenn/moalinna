@@ -54,12 +54,12 @@ class PubSSHKey(models.Model):
 		try:
 			keytype, b64pubkey, comment = l
 		except ValueError:
-			raise ValidationError("Pubkeys need to be space seperated list: keytype key [comment]")
+			raise ValidationError("Pubkeys need to be space seperated list (keytype key [comment])")
 
 		try:
 			pubkey = base64.b64decode(b64pubkey.encode('ascii'))
 		except (binascii.Error, UnicodeEncodeError):
-			raise ValidationError("Key is not base64 encoded")
+			raise ValidationError("Key data is not base64 encoded")
 
 		res = cls(
 					keytype=keytype,
