@@ -12,21 +12,28 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from . import config_reader
+
+################################################################################
+## Section: general
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+config = config_reader.open_config_file(BASE_DIR)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 's)v4%=pyxk*fue=vce60bx3r01e9vl4%9^b%(l=p_665mm_d@+'
+SECRET_KEY = config.get('general', 'SECRET_KEY', fallback='s)v4%=pyxk*fue=vce60bx3r01e9vl4%9^b%(l=p_665mm_d@+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.getboolean('general', 'DEBUG', fallback=True)
 
-ALLOWED_HOSTS = []
+################################################################################
+## Section: server
 
+ALLOWED_HOSTS = [
+    config.get('server', 'HOST')
+] if config.has_option('server', 'HOST') else []
 
 # Application definition
 
@@ -71,6 +78,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'moalinna.wsgi.application'
 
 
+################################################################################
+## Section: database
+
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -81,6 +91,9 @@ DATABASES = {
     }
 }
 
+
+################################################################################
+## Section: login
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -100,13 +113,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+################################################################################
+## Section: i18n
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = config.get('i18n', 'LANGUAGE_CODE', fallback='en-us')
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = config.get('i18n', 'TIME_ZONE', fallback='UTC')
 
 USE_I18N = True
 
@@ -119,6 +134,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Bulma/Bootstrap CSS use 'danger' as red color tag instead of 'error'
 
 from django.contrib.messages import constants as message_constants
 
