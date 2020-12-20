@@ -98,6 +98,15 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend'
+]
+
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -112,6 +121,31 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+OIDC_ENABLED = config.has_option('login', 'OIDC_ENDPOINT')
+
+if OIDC_ENABLED:
+    OIDC_ENDPOINT = config.get('login', 'OIDC_ENDPOINT').rstrip('/')
+
+    OIDC_OP_AUTHORIZATION_ENDPOINT = OIDC_ENDPOINT + '/auth'
+    OIDC_OP_TOKEN_ENDPOINT = OIDC_ENDPOINT + '/token'
+    OIDC_OP_USER_ENDPOINT = OIDC_ENDPOINT + '/me'
+    OIDC_OP_JWKS_ENDPOINT = OIDC_ENDPOINT + '/certs'
+
+    if config.has_option('login', 'OIDC_RP_SIGN_ALGO'):
+        OIDC_RP_SIGN_ALGO = config.get('login', 'OIDC_RP_SIGN_ALGO')
+
+    OIDC_RP_CLIENT_ID = config.get('login', 'OIDC_CLIENT_ID')
+    OIDC_RP_CLIENT_SECRET = config.get('login', 'OIDC_CLIENT_SECRET')
+
+    INSTALLED_APPS += ['mozilla_django_oidc']
+    AUTHENTICATION_BACKENDS += [
+        'moalinna.auth.OIDCAuthenticationBackend',
+    ]
+    MIDDLEWARE += [
+        'mozilla_django_oidc.middleware.SessionRefresh',
+    ]
+
 
 ################################################################################
 ## Section: i18n

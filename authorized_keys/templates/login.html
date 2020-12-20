@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="title is-1">Welcome!</h1>
+
+{% if user.is_authenticated %}
+<p>
+ 	You are successfully logged in.
+</p>
+<p>
+	Continue now to the <a href="{% url 'authorized_keys:index' %}">key management site</a>.
+</p>
+{% else %}
+<p>
+	You are currently not logged in.
+</p>
+
+<p>
+	<a class="button is-primary" href="{% url 'oidc_authentication_init' %}">
+		<span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+		<span>Login using OpenID Connect</span>
+	</a>
+</p>
+
+{% endif %}
+
+
+
+{% endblock %}
