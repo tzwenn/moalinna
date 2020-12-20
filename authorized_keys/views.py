@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -30,6 +31,8 @@ def add(request):
 		return HttpResponseBadRequest("Invalid POST data")
 	except ValidationError as e:
 		messages.error(request, "Invalid key: {}".format("<br />".join(line for line in e)))
+	except IntegrityError as e:
+		messages.error(request, "Integrity Error: Has this key already been added?")
 	except Exception as e:
 		messages.error(request, repr(e))
 	else:

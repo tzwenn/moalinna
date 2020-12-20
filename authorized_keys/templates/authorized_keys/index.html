@@ -2,15 +2,23 @@
 
 {% block content %}
 
+<h1 class="title is-1">Authorized SSH Keys</h1>
+
 {% if messages %}
+<p>
     {% for message in messages %}
     <div class="notification is-{{ message.tags }}">
         {{ message }}
     </div>
     {% endfor %}
+</p>
 {% endif %}
 
-<h2 class="title">Add a key</h2>
+<p>
+On this page you can upload and save public SSH keys that can be used for password-less login to the SSH server.
+</p>
+
+<h4 class="title is-4">Add a key</h4>
 <div class="columns">
     <div class="column is-two-thirds">
         <form action="{% url 'authorized_keys:add' %}" method="post">
@@ -23,9 +31,9 @@
             </div>
 
             <div class="field">
-                <label class="label" for="title">Title (optional)</label>
+                <label class="label" for="title">Title</label>
                 <div class="control">
-                    <input class="input" type="text" name="title" id="key_title" placeholder="your key's title">
+                    <input class="input" type="text" name="title" id="key_title" placeholder="your key's title" required="required">
                 </div>
             </div>
 
@@ -39,18 +47,26 @@
 </div>
 
 {% if pubsshkey_list %}
-<h2 class="title">Your keys</h2>
+<h4 class="title is-4">Your keys</h4>
 
-<ul>
 {% for pubsshkey in pubsshkey_list %}
     <form action="{% url 'authorized_keys:delete' pubsshkey.id %}" method="post">
         {% csrf_token %}
-        <li><b>{% firstof pubsshkey.title pubsshkey.comment %}</b>&nbsp;{{ pubsshkey.fingerprint }}
-        <button class="button icon is-danger" type="submit"><i class="fas fa-trash fa-xs"></i></button>
-        </li>
+        <div class="box">
+            <p>
+                <b>{% firstof pubsshkey.title pubsshkey.comment %}</b>&nbsp;{{ pubsshkey.fingerprint }}
+            </p>
+            <div class="columns">
+                <div class="column">
+                    Added: {{ pubsshkey.creation_date }}
+                </div>
+                <div class="column has-text-right">
+                    <button class="button icon is-danger" type="submit"><i class="fas fa-trash fa-xs"></i></button>
+                </div>
+            </div>
+        </div>
     </form>
 {% endfor %}
-</ul>
 
 {% endif %}
 
