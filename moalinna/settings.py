@@ -35,10 +35,21 @@ ALLOWED_HOSTS = [
     config.get('server', 'HOST')
 ] if config.has_option('server', 'HOST') else []
 
+if config.has_option('server', 'FORCE_SCRIPT_NAME'):
+    FORCE_SCRIPT_NAME = '/' + config.get('server', 'FORCE_SCRIPT_NAME').lstrip('/')
+else:
+    FORCE_SCRIPT_NAME = None
+
+def prefix_script_name(url):
+    return (FORCE_SCRIPT_NAME or '') + url
+
+if config.getboolean('server', 'TRUST_X_FORWARDED_PROTO', fallback=False):
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Application definition
 
 INSTALLED_APPS = [
-	'authorized_keys.apps.AuthorizedKeysConfig',
+    'authorized_keys.apps.AuthorizedKeysConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -102,10 +113,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
 
-LOGIN_URL = '/login/'
+LOGIN_URL = prefix_script_name('/login/')
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = prefix_script_name('/')
+LOGOUT_REDIRECT_URL = prefix_script_name('/')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -167,7 +178,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = prefix_script_name('/static/')
 
 # Bulma/Bootstrap CSS use 'danger' as red color tag instead of 'error'
 
