@@ -15,7 +15,7 @@
 {% endif %}
 
 <p>
-On this page you can upload and save public SSH keys that can be used for password-less login to the SSH server.
+On this page, you can upload and save public SSH keys that can be used for password-less login to the SSH server.
 </p>
 
 <h4 class="title is-4">Add a key</h4>
@@ -54,7 +54,8 @@ On this page you can upload and save public SSH keys that can be used for passwo
         {% csrf_token %}
         <div class="box">
             <p>
-                <b>{% firstof pubsshkey.title pubsshkey.comment %}</b>&nbsp;{{ pubsshkey.fingerprint }}
+                <b>{% firstof pubsshkey.title pubsshkey.comment %}</b>
+                <span class="ssh-fingerprint">{{ pubsshkey.fingerprint }}</span>
             </p>
             <div class="columns">
                 <div class="column">

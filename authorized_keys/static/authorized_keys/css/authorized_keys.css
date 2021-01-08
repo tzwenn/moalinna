@@ -1,3 +1,8 @@
 .brand-logo {
-	margin-right: 8px;
+	margin-right: 0.5em;
+}
+
+.ssh-fingerprint {
+	overflow: hidden;
+	word-wrap: anywhere;
 }
