@@ -162,6 +162,7 @@ if OIDC_ENABLED:
 ## Section: branding
 
 LOGO_URL = config.get('branding', 'LOGO_URL', fallback=None)
+CUSTOMIZED_BULMA_URL = config.get('branding', 'CUSTOMIZED_BULMA_URL', fallback=None)
 
 ################################################################################
 ## Section: i18n
