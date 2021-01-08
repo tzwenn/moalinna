@@ -7,11 +7,53 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" type="text/css" href="{% static 'authorized_keys/css/bulma.0.9.1.min.css' %}">
-		<script defer src="{% static 'authorized_keys/js/fontawesome.5.14.0.all.js' %}"></script>	
+		<link rel="stylesheet" type="text/css" href="{% static 'authorized_keys/css/authorized_keys.css' %}">
+
+		<script defer src="{% static 'authorized_keys/js/fontawesome.5.14.0.all.js' %}"></script>
+		<script src="{% static 'authorized_keys/js/authorized_keys.js' %}"></script>
 	</head>
 <body>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+	<div class="navbar-brand">
+		<span class="navbar-item">
+			{% if settings.LOGO_URL %}
+				<img class="brand-logo" src="{{ settings.LOGO_URL }}">
+			{% else %}
+				<i class="fas fa-key fa-2x brand-logo"></i>
+			{% endif %}
+			Authorized SSH Keys
+		</span>
+
+
+		{% if user.is_authenticated %}
+		<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="authorized-keys-navbar">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		</a>
+		{% endif %}
+	</div>
+
+	<div id="authorized-keys-navbar" class="navbar-menu">
+		<div class="navbar-start">
+		</div>
+
+		{% if user.is_authenticated %}
+		<div class="navbar-end">
+			<div class="navbar-item">
+				<div class="buttons">
+					<a class="button is-light" href="{% url 'logout' %}">
+						Log out
+					</a>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</nav>
+<main>
 <section class="section">
-    <div class="container">
+	<div class="container">
 		<div class="content">
 			<div class="columns">
 				<div class="column is-three-fifths is-offset-one-fifth ">
@@ -20,7 +62,8 @@
 				</div>
 			</div>
 		</div>
-    </div>
-  </section>
+	</div>
+</section>
+</main>
 </body>
 </html>

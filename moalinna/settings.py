@@ -77,6 +77,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'moalinna.context_processors.settings_context',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -157,6 +158,10 @@ if OIDC_ENABLED:
         'mozilla_django_oidc.middleware.SessionRefresh',
     ]
 
+################################################################################
+## Section: branding
+
+LOGO_URL = config.get('branding', 'LOGO_URL', fallback=None)
 
 ################################################################################
 ## Section: i18n
