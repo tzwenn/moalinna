@@ -20,7 +20,7 @@ On this page you can upload and save public SSH keys that can be used for passwo
 
 <h4 class="title is-4">Add a key</h4>
 <div class="columns">
-    <div class="column is-two-thirds">
+    <div class="column">
         <form action="{% url 'authorized_keys:add' %}" method="post">
             {% csrf_token %}
             <div class="field">
