@@ -25,4 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* End example Bulma snippet */
+
+  const $key_text = document.getElementById('key_text');
+  const $key_title = document.getElementById('key_title');
+
+  if ($key_text && $key_title) {
+    key_text.addEventListener('input', () => {
+      comment_match = key_text.value.match(/^\S+ \S+ (.+)\n?$/);
+      if (comment_match && comment_match.length > 1) {
+          key_title.value = comment_match[1];
+      }
+    });
+  }
+
 });
