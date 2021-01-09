@@ -8,6 +8,9 @@ from django.urls import reverse
 
 from .models import PubSSHKey
 
+def format_as_code(text):
+	return '<span class="is-family-code">{}</span>'.format(text)
+
 @login_required
 def index(request):
 	mypk = request.user.pk
@@ -36,7 +39,7 @@ def add(request):
 	except Exception as e:
 		messages.error(request, repr(e))
 	else:
-		messages.success(request, "Added key {}".format(pubsshkey.fingerprint))
+		messages.success(request, "Added key {}.".format(format_as_code(pubsshkey.fingerprint)), extra_tags='safe')
 	return HttpResponseRedirect(reverse('authorized_keys:index'))
 
 
@@ -50,8 +53,8 @@ def delete(request, key_id):
 		try:
 			pubsshkey.delete()
 		except Exception as e:
-			messages.error(request, "Cannot delete: {}".format(repr(e)))
+			messages.error(request, "Cannot delete: {}.".format(repr(e)))
 		else:
-			messages.success(request, 'Deleted key {}'.format(pubsshkey.fingerprint))
+			messages.success(request, 'Deleted key {}.'.format(format_as_code(pubsshkey.fingerprint)), extra_tags='safe')
 
 	return HttpResponseRedirect(reverse('authorized_keys:index'))

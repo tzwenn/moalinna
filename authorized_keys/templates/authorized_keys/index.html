@@ -7,8 +7,8 @@
 {% if messages %}
 <p>
     {% for message in messages %}
-    <div class="notification is-{{ message.tags }}">
-        {{ message }}
+    <div class="notification is-{{ message.level_tag }}">
+        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
     </div>
     {% endfor %}
 </p>
