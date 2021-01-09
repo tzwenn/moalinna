@@ -165,6 +165,11 @@ LOGO_URL = config.get('branding', 'LOGO_URL', fallback=None)
 CUSTOMIZED_BULMA_URL = config.get('branding', 'CUSTOMIZED_BULMA_URL', fallback=None)
 
 ################################################################################
+## Section: authorized_keys
+
+USE_SHA256_FINGERPRINTS = config.getboolean('authorized_keys', 'USE_SHA256_FINGERPRINTS', fallback=False)
+
+################################################################################
 ## Section: i18n
 
 # Internationalization
@@ -180,6 +185,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+################################################################################
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

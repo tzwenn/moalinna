@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -41,7 +42,7 @@ class PubSSHKey(models.Model):
 
 	@property
 	def fingerprint(self):
-		return self.md5fp
+		return self.sha256fp if settings.USE_SHA256_FINGERPRINTS else self.md5fp
 
 	@property
 	def AUTHORIZED_KEYS(self):
