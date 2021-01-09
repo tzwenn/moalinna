@@ -28,10 +28,20 @@ class PubSSHKey(models.Model):
 		)
 
 	@property
-	def fingerprint(self):
-		"""Computes SHA1 fingerprint"""
+	def md5fp(self):
+		"""Computes MD5 fingerprint"""
 		fp = hashlib.md5(self.pubkey).hexdigest()
 		return ':'.join(a + b for a, b in zip(fp[::2], fp[1::2]))
+
+	@property
+	def sha256fp(self):
+		"""Computes SHA256 fingerprint"""
+		# I am aware of stripping the base64 padding. Haven't found it elsewhere with SHA256 fps
+		return "SHA256:" + base64.b64encode(hashlib.sha256(self.pubkey).digest()).decode('ascii').rstrip('=')
+
+	@property
+	def fingerprint(self):
+		return self.md5fp
 
 	@property
 	def AUTHORIZED_KEYS(self):
