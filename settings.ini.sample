@@ -1,0 +1,69 @@
+################################################################################
+## 
+## Sample configuration for moalinna, a web interface to store SSH pubkeys
+##
+## You can copy this to settings_dev.ini in your local directory
+## for testing and development scenarios.
+##
+## In production this file should reside in /etc/moalinna/settings.ini
+## and should be readable only to the user running moalinna.
+##
+## For options commented out below, the default value is given in the comment.
+##
+################################################################################
+
+[general]
+
+## The Django SECRET_KEY. Change in production
+# SECRET_KEY = ChangeMe
+
+## Disable in production
+# DEBUG = True
+
+[server]
+
+## Here you can specify your reported hostname (part of Django ALLOWED_HOSTS)
+# HOST = 
+
+## If your application is served at a non-root path, specify it here
+# FORCE_SCRIPT_NAME =
+
+## If your application is deployed behind a non-encrypted reverse proxy,
+## set this to True to trust the HTTP_X_FORWARDED_PROTO headers.
+# TRUST_X_FORWARDED_PROTO = False
+
+[login]
+
+## This tool uses OpenID Connect as primary login mechanism.
+## For testing purposes you can alternatively use `manage.py createsuperuser`
+## and than login using the Admin interface at `http://<yoururl>/admin/`
+
+## Configure these according to your OpenID Connect provider.
+## You callback URL will be `https://<yoururl>/oidc/callback/`.
+## If no OIDC_ENDPOINT is set, OIDC login will be disabled.
+
+# OIDC_ENDPOINT =
+# OIDC_CLIENT_ID =
+# OIDC_CLIENT_SECRET = 
+
+## Some OpenID Connect providers use different algos to sign tokens, e.g. RS256
+# OIDC_RP_SIGN_ALGO = HS256
+
+[branding]
+
+## You can provide your organization's logo for nice branding
+# LOGO_URL = 
+
+## You can customize bulma to match e.g. it your or organization's brand colors
+## For details see https://bulma.io/documentation/customize/
+# CUSTOMIZED_BULMA_URL = 
+
+[i18n]
+
+LANGUAGE_CODE = en-us
+TIME_ZONE = UTC
+
+[authorized_keys]
+
+## Enable this option if SHA256 fingerprints should be displayed instead of MD5
+# USE_SHA256_FINGERPRINTS = False

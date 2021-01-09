@@ -20,7 +20,14 @@ from . import config_reader
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-config = config_reader.open_config_file(BASE_DIR)
+try:
+    config = config_reader.open_config_file(BASE_DIR)
+except IOError:
+    import logging, sys
+    logger = logging.getLogger(__name__)
+    logger.error('No configuration file found.\nRun "cp settings.ini.sample settings_dev.ini" for a quick setup.')
+    sys.exit(1)
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.get('general', 'SECRET_KEY', fallback='s)v4%=pyxk*fue=vce60bx3r01e9vl4%9^b%(l=p_665mm_d@+')
