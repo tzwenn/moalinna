@@ -17,11 +17,23 @@
 </p>
 
 <p>
+	{% if settings.OIDC_ENABLED %}
 	<a class="button is-primary" href="{% url 'oidc_authentication_init' %}">
 		<span class="icon"><i class="fas fa-sign-in-alt"></i></span>
 		<span>Login using OpenID Connect</span>
 	</a>
+	{% else %}
+	<div class="notification is-warning">
+		<p>
+			OpenID Connect is disabled in the application settings.
+		</p>
+		<p>
+			Use other means of authentication, like local users and the admin interface.
+		</p>
+    </div>
+	{% endif %}
 </p>
+
 
 {% endif %}
 
