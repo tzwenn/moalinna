@@ -103,10 +103,29 @@ WSGI_APPLICATION = 'moalinna.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+_BACKEND_BASE_STR = 'django.db.backends.'
+_SQLITE_ENG_STR = 'sqlite3'
+
+_DATABASE_ENGINE_STR = config.get('database', 'DATABASE_ENGINE', fallback=None)
+if _DATABASE_ENGINE_STR is None:
+	_DATABASE_ENGINE_STR = 'sqlite3'
+
+if not '.' in _DATABASE_ENGINE_STR:
+	_DATABASE_ENGINE_STR = _BACKEND_BASE_STR + _DATABASE_ENGINE_STR
+
+_DATABASE_NAME_STR = config.get('database', 'DATABASE_NAME',
+		fallback=(os.path.join(BASE_DIR, 'db.sqlite3') \
+			if _DATABASE_ENGINE_STR == _BACKEND_BASE_STR + _SQLITE_ENG_STR \
+			else ''))
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': _DATABASE_ENGINE_STR,
+        'NAME': _DATABASE_NAME_STR,
+        'USER': config.get('database', 'DATABASE_USER', fallback=''),
+        'PASSWORD': config.get('database', 'DATABASE_PASSWORD', fallback=''),
+        'HOST': config.get('database', 'DATABASE_HOST', fallback=''),
+        'PORT': config.get('database', 'DATABASE_PORT', fallback=''),
     }
 }
 

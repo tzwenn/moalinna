@@ -32,6 +32,24 @@
 ## set this to True to trust the HTTP_X_FORWARDED_PROTO headers.
 # TRUST_X_FORWARDED_PROTO = False
 
+[database]
+
+## The database backend to use.
+## Built-in with Django (may require to install additional packages):
+##     postgresql, mysql, sqlite3, oracle
+## Can also be fully-qualified path (i.e. mypackage.backends.whatever).
+# DATABASE_ENGINE = sqlite3
+
+## The database name/sqlite3 filename to use
+## (If empty with ENGINE sqlite3, a local "db.sqlite3" file will be created)
+# DATABASE_NAME =
+
+## Futher database configuration (not required when working with sqlite3)
+# DATABASE_USER =
+# DATABASE_PASSWORD =
+# DATABASE_HOST =
+# DATABASE_PORT =
+
 [login]
 
 ## This tool uses OpenID Connect as primary login mechanism.
