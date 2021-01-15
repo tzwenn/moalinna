@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Moalinna\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 13:48+0100\n"
-"PO-Revision-Date: 2021-01-15 13:49+0100\n"
+"PO-Revision-Date: 2021-01-15 15:29+0100\n"
 "Last-Translator: Sven Koehler\n"
 "Language-Team: Sven Koehler\n"
 "Language: de\n"
@@ -24,15 +24,15 @@ msgstr ""
 
 #: models.py:74
 msgid "Key data is not base64 encoded"
-msgstr "Die Schlüsseldaten sind nicht Base64-enkodiert"
+msgstr "Die Schlüsseldaten sind kein gültiges Base64"
 
 #: templates/authorized_keys/index.html:19
 msgid ""
 "On this page, you can upload and save public SSH keys that can be used for "
 "password-less login to the SSH server."
 msgstr ""
-"Auf dieser Seite können Sie öffentliche SSH-Schlüssel hochladen und "
-"speichern, die den passwortlosen Zugang zum SSH-Server ermöglichen."
+"Auf dieser Seite können Sie öffentliche SSH-Schlüssel hochladen, die den "
+"passwortlosen Zugang zum SSH-Server ermöglichen."
 
 #: templates/authorized_keys/index.html:22
 msgid "Add a key"
