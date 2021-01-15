@@ -9,6 +9,12 @@ testdata = [{
 		"md5fp": "d4:3c:c8:39:f7:c3:cc:1e:99:d6:f9:c8:c4:13:14:e1",
 		"comment": "sheep@pasture",
 		"sha256fp": "SHA256:lxfaWMqFWQKTdN32cT7saRHsGCYtahwHqtdWjEPVgG0",
+	},{
+		"file": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEuFwOLEGgTTWG0oHmFL8qwC9Kb+Z2WmH/yNZITsrAc",
+		"keytype": "ssh-ed25519",
+		"md5fp": "31:40:f8:bd:28:24:1e:17:16:3a:4d:d1:a8:cf:f5:96",
+		"comment": None,
+		"sha256fp": "SHA256:wx/VuBfyist4ZcmfcLIXcIgwhHzxbkmNxsjt4w5Rnp4",
 	}]
 
 

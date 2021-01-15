@@ -15,7 +15,7 @@ class PubSSHKey(models.Model):
 	pubkey = models.BinaryField()
 	"""Public key (decoded from base64)"""
 
-	comment = models.CharField(max_length=64)
+	comment = models.CharField(max_length=64, null=True, blank=True)
 	"""User comment field"""
 
 	title = models.CharField(max_length=64)
