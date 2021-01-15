@@ -1,6 +1,12 @@
 *.pyc
+
+# local deployment files and folders
 *.sqlite3
 settings_*.ini
-
 venv/
+
+# gettext binaries
+*.mo
+
+# branding and theming is a seperate project
 branding/

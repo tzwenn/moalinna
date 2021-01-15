@@ -1,0 +1,131 @@
+# Moalinna Authorized SSH Key Management Translation
+# This file is distributed under the same license as the moalinna package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Moalinna\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-15 13:21+0100\n"
+"PO-Revision-Date: 2021-01-15 13:23+0100\n"
+"Last-Translator: Sven Koehler\n"
+"Language-Team: Sven Koehler\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: models.py:69
+msgid "Pubkeys need to be space seperated list (keytype key [comment])"
+msgstr ""
+"SSH-Schlüssel sind eine mit Leerzeichen getrennte Liste aus (Typ Schlüssel "
+"[Kommentar])"
+
+#: models.py:74
+msgid "Key data is not base64 encoded"
+msgstr "Die Schlüsseldaten sind nicht Base64-enkodiert"
+
+#: templates/authorized_keys/index.html:19
+msgid ""
+"On this page, you can upload and save public SSH keys that can be used for "
+"password-less login to the SSH server."
+msgstr ""
+"Auf dieser Seite können Sie öffentliche SSH-Schlüssel hochladen und "
+"speichern, die den passwortlosen Zugang zum SSH-Server ermöglichen."
+
+#: templates/authorized_keys/index.html:22
+msgid "Add a key"
+msgstr "Schlüssel hinzufügen"
+
+#: templates/authorized_keys/index.html:30
+msgid "The content of your keyfile"
+msgstr "Der Inhalt Ihrer Schlüsseldatei"
+
+#: templates/authorized_keys/index.html:37
+msgid "Your key's title"
+msgstr "Der Name des Schlüssels"
+
+#: templates/authorized_keys/index.html:43
+msgid "Add Key"
+msgstr "Hinzufügen"
+
+#: templates/authorized_keys/index.html:51
+msgid "Your Keys"
+msgstr "Ihre Schlüssel"
+
+#: templates/authorized_keys/index.html:63
+msgctxt "key creation date"
+msgid "Added"
+msgstr "Hinzugefügt"
+
+#: templates/base.html:3
+msgid "Authorized SSH Keys"
+msgstr "Authorized SSH Keys"
+
+#: templates/base.html:55
+msgid "Log out"
+msgstr "Abmelden"
+
+#: templates/login.html:6
+msgid "Welcome!"
+msgstr "Willkommen!"
+
+#: templates/login.html:10
+msgid "You are successfully logged in."
+msgstr "Sie haben sich erfolgreich angemeldet."
+
+#: templates/login.html:14
+#, python-format
+msgid ""
+"Continue now to the <a href=\"%(ak_index_url)s\">key management site</a>."
+msgstr ""
+"Fahren Sie nun fort zur <a href=\"%(ak_index_url)s"
+"\">Schlüsselverwaltungsseite</a>."
+
+#: templates/login.html:18
+msgid "You are currently not logged in."
+msgstr "Sie sind momentan nicht angemeldet."
+
+#: templates/login.html:25
+msgid "Login using OpenID Connect"
+msgstr "Mit OpenID Connect anmelden"
+
+#: templates/login.html:30
+msgid "OpenID Connect is disabled in the application settings."
+msgstr "OpenID Connect ist in den Anwendungseinstellungen deaktiviert."
+
+#: templates/login.html:33
+msgid ""
+"Use other means of authentication, like local users and the admin interface."
+msgstr ""
+"Nutzen Sie andere Anmeldemöglichkeiten, wie lokale Benutzer und das Admin-"
+"Interface."
+
+#: templates/logout.html:6
+msgid "Logged out"
+msgstr "Abgemeldet"
+
+#: views.py:37
+msgid "Invalid key: {}"
+msgstr "Ungültiger Schlüssel: {}"
+
+#: views.py:39
+msgid "Integrity Error: Has this key already been added?"
+msgstr "Fehler: Wurde dieser Schlüssel schon anderswo hinzugefügt?"
+
+#: views.py:43
+msgid "Added key {}."
+msgstr "Schlüssel {} hinzugefügt."
+
+#: views.py:52
+msgid "That's not your key!"
+msgstr "Das ist nicht Ihr Schlüssel!"
+
+#: views.py:57
+msgid "Cannot delete: {}."
+msgstr "Konnte {} nicht löschen."
+
+#: views.py:59
+msgid "Deleted key {}."
+msgstr "Schlüssel {} gelöscht."
