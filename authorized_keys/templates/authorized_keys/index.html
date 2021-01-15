@@ -25,14 +25,14 @@
         <form action="{% url 'authorized_keys:add' %}" method="post">
             {% csrf_token %}
             <div class="field">
-                <label class="label" for="content">Key</label>
+                <label class="label" for="content">{% trans "Key" %}</label>
                 <div class="control">
                     <textarea class="textarea" name="content" id="key_text" placeholder="{% trans "The content of your keyfile" %}" required="required"></textarea>
                 </div>
             </div>
 
             <div class="field">
-                <label class="label" for="title">Title</label>
+                <label class="label" for="title">{% trans "Title" %}</label>
                 <div class="control">
                     <input class="input" type="text" name="title" id="key_title" placeholder="{% trans "Your key's title" %}" required="required">
                 </div>

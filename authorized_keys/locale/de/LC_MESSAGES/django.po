@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moalinna\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 13:21+0100\n"
-"PO-Revision-Date: 2021-01-15 13:23+0100\n"
+"POT-Creation-Date: 2021-01-15 13:48+0100\n"
+"PO-Revision-Date: 2021-01-15 13:49+0100\n"
 "Last-Translator: Sven Koehler\n"
 "Language-Team: Sven Koehler\n"
 "Language: de\n"
@@ -38,9 +38,17 @@ msgstr ""
 msgid "Add a key"
 msgstr "Schlüssel hinzufügen"
 
+#: templates/authorized_keys/index.html:28
+msgid "Key"
+msgstr "Schlüssel"
+
 #: templates/authorized_keys/index.html:30
 msgid "The content of your keyfile"
 msgstr "Der Inhalt Ihrer Schlüsseldatei"
+
+#: templates/authorized_keys/index.html:35
+msgid "Title"
+msgstr "Name"
 
 #: templates/authorized_keys/index.html:37
 msgid "Your key's title"
@@ -106,26 +114,26 @@ msgstr ""
 msgid "Logged out"
 msgstr "Abgemeldet"
 
-#: views.py:37
+#: views.py:41
 msgid "Invalid key: {}"
 msgstr "Ungültiger Schlüssel: {}"
 
-#: views.py:39
+#: views.py:43
 msgid "Integrity Error: Has this key already been added?"
 msgstr "Fehler: Wurde dieser Schlüssel schon anderswo hinzugefügt?"
 
-#: views.py:43
+#: views.py:47
 msgid "Added key {}."
 msgstr "Schlüssel {} hinzugefügt."
 
-#: views.py:52
+#: views.py:56
 msgid "That's not your key!"
 msgstr "Das ist nicht Ihr Schlüssel!"
 
-#: views.py:57
+#: views.py:61
 msgid "Cannot delete: {}."
 msgstr "Konnte {} nicht löschen."
 
-#: views.py:59
+#: views.py:63
 msgid "Deleted key {}."
 msgstr "Schlüssel {} gelöscht."
