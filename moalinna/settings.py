@@ -68,6 +68,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -205,11 +206,18 @@ LANGUAGE_CODE = config.get('i18n', 'LANGUAGE_CODE', fallback='en-us')
 
 TIME_ZONE = config.get('i18n', 'TIME_ZONE', fallback='UTC')
 
-USE_I18N = True
+USE_I18N = config.getboolean('i18n', 'USE_I18N', fallback=True)
 
 USE_L10N = True
 
 USE_TZ = True
+
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGES = [
+    ('de', _('German')),
+    ('en', _('English')),
+]
 
 ################################################################################
 

@@ -78,8 +78,14 @@
 
 [i18n]
 
-LANGUAGE_CODE = en-us
-TIME_ZONE = UTC
+## Enable or disable internationalization
+# USE_I18N = True
+
+## Default locale (if system can't determine from user request)
+# LANGUAGE_CODE = en-us
+
+## Default timezone for all displayed dates
+# TIME_ZONE = UTC
 
 [authorized_keys]
 
