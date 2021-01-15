@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 
-<h1 class="title is-1">Authorized SSH Keys</h1>
+<h1 class="title is-1">{{ page_title }}</h1>
 
 {% if messages %}
 <p>
@@ -15,10 +16,10 @@
 {% endif %}
 
 <p>
-On this page, you can upload and save public SSH keys that can be used for password-less login to the SSH server.
+{% trans "On this page, you can upload and save public SSH keys that can be used for password-less login to the SSH server." %}
 </p>
 
-<h4 class="title is-4">Add a key</h4>
+<h4 class="title is-4">{% trans "Add a key" %}</h4>
 <div class="columns">
     <div class="column">
         <form action="{% url 'authorized_keys:add' %}" method="post">
@@ -26,20 +27,20 @@ On this page, you can upload and save public SSH keys that can be used for passw
             <div class="field">
                 <label class="label" for="content">Key</label>
                 <div class="control">
-                    <textarea class="textarea" name="content" id="key_text" placeholder="The content of your keyfile" required="required"></textarea>
+                    <textarea class="textarea" name="content" id="key_text" placeholder="{% trans "The content of your keyfile" %}" required="required"></textarea>
                 </div>
             </div>
 
             <div class="field">
                 <label class="label" for="title">Title</label>
                 <div class="control">
-                    <input class="input" type="text" name="title" id="key_title" placeholder="your key's title" required="required">
+                    <input class="input" type="text" name="title" id="key_title" placeholder="{% trans "Your key's title" %}" required="required">
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <button class="button is-primary" type="submit" >Add Key</button>
+                    <button class="button is-primary" type="submit">{% trans "Add Key" %}</button>
                 </div>
             </div>
         </form>
@@ -47,7 +48,7 @@ On this page, you can upload and save public SSH keys that can be used for passw
 </div>
 
 {% if pubsshkey_list %}
-<h4 class="title is-4">Your keys</h4>
+<h4 class="title is-4">{% trans "Your Keys" %}</h4>
 
 {% for pubsshkey in pubsshkey_list %}
     <form action="{% url 'authorized_keys:delete' pubsshkey.id %}" method="post">
@@ -59,7 +60,7 @@ On this page, you can upload and save public SSH keys that can be used for passw
             </p>
             <div class="columns">
                 <div class="column">
-                    Added: {{ pubsshkey.creation_date }}
+                    {% trans "Added" context "key creation date" %}: {{ pubsshkey.creation_date }}
                 </div>
                 <div class="column has-text-right">
                     <button class="button icon is-danger" type="submit"><i class="fas fa-trash fa-xs"></i></button>

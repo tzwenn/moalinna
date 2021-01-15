@@ -1,42 +1,41 @@
 {% extends 'base.html' %}
+{% load i18n %} 
 
 {% block content %}
 
-<h1 class="title is-1">Welcome!</h1>
+<h1 class="title is-1">{% trans "Welcome!" %}</h1>
 
 {% if user.is_authenticated %}
 <p>
- 	You are successfully logged in.
+ 	{% trans "You are successfully logged in." %}
 </p>
 <p>
-	Continue now to the <a href="{% url 'authorized_keys:index' %}">key management site</a>.
+	{% url 'authorized_keys:index' as ak_index_url %}
+	{% blocktrans %}Continue now to the <a href="{{ ak_index_url }}">key management site</a>.{% endblocktrans %}
 </p>
 {% else %}
 <p>
-	You are currently not logged in.
+	{% trans "You are currently not logged in." %}
 </p>
 
 <p>
 	{% if settings.OIDC_ENABLED %}
 	<a class="button is-primary" href="{% url 'oidc_authentication_init' %}">
 		<span class="icon"><i class="fas fa-sign-in-alt"></i></span>
-		<span>Login using OpenID Connect</span>
+		<span>{% trans "Login using OpenID Connect" %}</span>
 	</a>
 	{% else %}
 	<div class="notification is-warning">
 		<p>
-			OpenID Connect is disabled in the application settings.
+			{% trans "OpenID Connect is disabled in the application settings." %}
 		</p>
 		<p>
-			Use other means of authentication, like local users and the admin interface.
+			{% trans "Use other means of authentication, like local users and the admin interface." %}
 		</p>
     </div>
 	{% endif %}
 </p>
 
-
 {% endif %}
-
-
 
 {% endblock %}

@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% trans "Authorized SSH Keys" as page_title noop %}
 
 <!DOCTYPE html>
 <html lang="de">
@@ -18,6 +20,7 @@
 		<script defer src="{% static 'authorized_keys/js/fontawesome.5.14.0.all.js' %}"></script>
 		<script src="{% static 'authorized_keys/js/authorized_keys.js' %}"></script>
 	</head>
+	<title>{{ page_title }}</title>
 <body>
 <nav class="navbar" role="navigation" aria-label="main navigation">
 	<div class="navbar-brand">
@@ -27,7 +30,7 @@
 			{% else %}
 				<i class="fas fa-key fa-2x brand-logo"></i>
 			{% endif %}
-			Authorized SSH Keys
+			{{ page_title }}
 		</span>
 
 
@@ -49,7 +52,7 @@
 			<div class="navbar-item">
 				<div class="buttons">
 					<a class="button is-light" href="{% url 'logout' %}">
-						Log out
+						{% trans "Log out" %}
 					</a>
 				</div>
 			</div>

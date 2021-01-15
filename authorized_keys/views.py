@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from .models import PubSSHKey
 
@@ -33,13 +34,13 @@ def add(request):
 	except KeyError:
 		return HttpResponseBadRequest("Invalid POST data")
 	except ValidationError as e:
-		messages.error(request, "Invalid key: {}".format("<br />".join(line for line in e)))
+		messages.error(request, _("Invalid key: {}").format("<br />".join(line for line in e)))
 	except IntegrityError as e:
-		messages.error(request, "Integrity Error: Has this key already been added?")
+		messages.error(request, _("Integrity Error: Has this key already been added?"))
 	except Exception as e:
 		messages.error(request, repr(e))
 	else:
-		messages.success(request, "Added key {}.".format(format_as_code(pubsshkey.fingerprint)), extra_tags='safe')
+		messages.success(request, _("Added key {}.").format(format_as_code(pubsshkey.fingerprint)), extra_tags='safe')
 	return HttpResponseRedirect(reverse('authorized_keys:index'))
 
 
@@ -48,13 +49,13 @@ def delete(request, key_id):
 	pubsshkey = get_object_or_404(PubSSHKey, pk=key_id)
 
 	if pubsshkey.user.pk != request.user.pk:
-		messages.error(request, "That's not your key!")
+		messages.error(request, _("That's not your key!"))
 	else:
 		try:
 			pubsshkey.delete()
 		except Exception as e:
-			messages.error(request, "Cannot delete: {}.".format(repr(e)))
+			messages.error(request, _("Cannot delete: {}.").format(repr(e)))
 		else:
-			messages.success(request, 'Deleted key {}.'.format(format_as_code(pubsshkey.fingerprint)), extra_tags='safe')
+			messages.success(request, _("Deleted key {}.").format(format_as_code(pubsshkey.fingerprint)), extra_tags='safe')
 
 	return HttpResponseRedirect(reverse('authorized_keys:index'))

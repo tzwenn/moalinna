@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 import base64
 import binascii
@@ -65,12 +66,12 @@ class PubSSHKey(models.Model):
 		try:
 			keytype, b64pubkey, comment = l
 		except ValueError:
-			raise ValidationError("Pubkeys need to be space seperated list (keytype key [comment])")
+			raise ValidationError(_("Pubkeys need to be space seperated list (keytype key [comment])"))
 
 		try:
 			pubkey = base64.b64decode(b64pubkey.encode('ascii'))
 		except (binascii.Error, UnicodeEncodeError):
-			raise ValidationError("Key data is not base64 encoded")
+			raise ValidationError(_("Key data is not base64 encoded"))
 
 		res = cls(
 					keytype=keytype,
