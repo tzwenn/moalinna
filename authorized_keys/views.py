@@ -2,15 +2,16 @@ from django.db import IntegrityError
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 
 from .models import PubSSHKey
 
 def format_as_code(text):
-	return '<span class="is-family-code">{}</span>'.format(text)
+	return '<span class="ssh-fingerprint is-family-code">{}</span>'.format(text)
 
 @login_required
 def index(request):
@@ -22,6 +23,7 @@ def index(request):
 	return render(request, 'authorized_keys/index.html', context)
 
 
+@require_POST
 @login_required
 def add(request):
 	try:
@@ -44,6 +46,7 @@ def add(request):
 	return HttpResponseRedirect(reverse('authorized_keys:index'))
 
 
+@require_POST
 @login_required
 def delete(request, key_id):
 	pubsshkey = get_object_or_404(PubSSHKey, pk=key_id)
