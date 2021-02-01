@@ -91,3 +91,27 @@
 
 ## Enable this option if SHA256 fingerprints should be displayed instead of MD5
 # USE_SHA256_FINGERPRINTS = False
+
+[ldap-expire]
+
+## The LDAP server's hostname or IP, which is queried to find expired users
+## If this option is set, the options below become mandatory
+# LDAP_SERVER =
+
+## The LDAP authentication method, can be SIMPLE, SASL or NTLM
+# LDAP_AUTH_METHOD = SIMPLE
+
+## The account used for bind, CN or (for NTLM) domain\username
+# LDAP_USER =
+
+## The password used for bind
+# LDAP_PASSWORD =
+
+## The search base of persons in your organization
+# LDAP_SEARCH_BASE =
+
+## Use SSL (ldaps) for bind
+# LDAP_USE_SSL = False
+
+## Use STARTTLS before bind
+# LDAP_USE_TLS = False

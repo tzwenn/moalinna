@@ -22,7 +22,7 @@ def read_sshkeys(username):
 	from django.contrib.auth.models import User
 	from authorized_keys.models import PubSSHKey
 
-	return PubSSHKey.objects.filter(user__username=username)
+	return PubSSHKey.objects.filter(user__username=username, user__is_active=True)
 
 def main(username):
 	if not is_user_expired(username):

@@ -197,6 +197,21 @@ CUSTOMIZED_BULMA_URL = config.get('branding', 'CUSTOMIZED_BULMA_URL', fallback=N
 USE_SHA256_FINGERPRINTS = config.getboolean('authorized_keys', 'USE_SHA256_FINGERPRINTS', fallback=False)
 
 ################################################################################
+## Section: ldap-expire
+
+LDAP_SERVER = config.get('ldap-expire', 'LDAP_SERVER', fallback=None)
+
+if LDAP_SERVER:
+    LDAP_AUTH_METHOD = config.get('ldap-expire', 'LDAP_AUTH_METHOD', fallback='SIMPLE')
+    LDAP_USER = config.get('ldap-expire', 'LDAP_USER')
+    LDAP_PASSWORD = config.get('ldap-expire', 'LDAP_PASSWORD')
+
+    LDAP_SEARCH_BASE = config.get('ldap-expire', 'LDAP_SEARCH_BASE')
+
+    LDAP_USE_SSL = config.getboolean('ldap-expire', 'LDAP_USE_SSL', fallback=False)
+    LDAP_USE_TLS = config.getboolean('ldap-expire', 'LDAP_USE_TLS', fallback=False)
+
+################################################################################
 ## Section: i18n
 
 # Internationalization
