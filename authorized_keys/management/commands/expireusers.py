@@ -84,8 +84,9 @@ class Command(BaseCommand):
 
 	def deactivate_user(self, user, reason):
 		logger.warning('Deactivate user {} ({})'.format(user.username, reason))
-		user.is_active = False
-		user.save()
+		if not self.dryrun:
+			user.is_active = False
+			user.save()
 
 	def fetch_and_expire(self, directory):
 		# For reducing traffic to directory and DB, we so a local join
@@ -102,6 +103,10 @@ class Command(BaseCommand):
 			elif global_users[user.username][0]:
 				self.deactivate_user(user, 'Expired in global directory on {}'.format(global_users[user.username][1]))
 
+	def add_arguments(self, parser):
+		parser.add_argument('-d', '--dryrun', action='store_true',
+		                    help='show which users are expired, but do not apply change')
 
 	def handle(self, *args, **options):
+		self.dryrun = options["dryrun"]
 		self.fetch_and_expire(LDAP())
