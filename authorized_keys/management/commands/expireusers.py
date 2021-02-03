@@ -97,7 +97,12 @@ class Command(BaseCommand):
 
 		logger.info("Matching agains {} users in directory".format(len(global_users)))
 
-		for user in User.objects.filter(is_active=True):
+		# Superusers cannot expire. Staff can, if option set
+		local_users = User.objects.filter(is_active=True,is_superuser=False)
+		if not self.expire_staff:
+			local_users = local_users.filter(is_staff=False)
+
+		for user in local_users:
 			if user.username not in global_users:
 				self.deactivate_user(user, 'Not found in global directory')
 			elif global_users[user.username][0]:
@@ -106,7 +111,10 @@ class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument('-d', '--dryrun', action='store_true',
 		                    help='show which users are expired, but do not apply change')
+		parser.add_argument('--expire-staff', action='store_true',
+		                    help='allow to deactivate users with staff status in django')
 
 	def handle(self, *args, **options):
 		self.dryrun = options["dryrun"]
+		self.expire_staff = options["expire_staff"]
 		self.fetch_and_expire(LDAP())
