@@ -18,7 +18,7 @@ class UserDirectory(object, metaclass=ABCMeta):
 
 	@abstractmethod
 	def all_users(self):
-		"""Yields tuples (uid, is_expired)"""
+		"""Yields tuples (uid, is_expired, date)"""
 		pass
 
 	@abstractmethod
@@ -51,7 +51,8 @@ class LDAP(UserDirectory):
 		
 		if settings.LDAP_USE_TLS:
 			self.conn.start_tls()
-		self.conn.bind()
+		if not self.conn.bind():
+			raise Exception("Could not bind LDAP connection: {}".format(self.conn.result))
 
 	def _is_date_expired(self, expirationDate):
 		return expirationDate not in self._eternal_dates and expirationDate < datetime.datetime.now(datetime.timezone.utc)
@@ -65,10 +66,11 @@ class LDAP(UserDirectory):
 			# uid is a list. Here, we cover None and empty lists
 			if not attributes.get('uid'):
 				continue
-			yield attributes['uid'][0], self._is_date_expired(attributes.get('accountExpires'))
+			date = attributes.get('accountExpires')
+			yield attributes['uid'][0], self._is_date_expired(date), date
 
 	def is_expired(self, uid):
-		search_pattern = '(uid={})'.format(uid) ## FIXME: Escape
+		search_pattern = '(uid={})'.format(ldap3.utils.conv.escape_filter_chars(uid))
 		if not self.conn.search(settings.LDAP_SEARCH_BASE, search_pattern, attributes=['accountExpires']):
 			return True
 		entry = self.conn.entries[0]
@@ -80,27 +82,26 @@ class Command(BaseCommand):
 	
 	requires_migrations_checks = True
 
-	def global_to_local(self):
-		"""Low load on directory, high on DB"""
-		for uid, is_expired in self.directory:
-			if is_expired:
-				try:
-					user = User.objects.filter(username=uid, is_active=True).get()
-					logger.info('User {} is expired.'.format(user.username))
-					user.is_active = False
-					user.save()
-				# pylint: disable=no-member
-				except User.DoesNotExist:
-					pass
+	def deactivate_user(self, user, reason):
+		logger.warning('Deactivate user {} ({})'.format(user.username, reason))
+		user.is_active = False
+		user.save()
 
-	def global_from_local(self):
-		"""High load on directory, low on DB"""
+	def fetch_and_expire(self, directory):
+		# For reducing traffic to directory and DB, we so a local join
+		global_users = {uid: (is_expired, date) for uid, is_expired, date in directory}
+		if not global_users:
+			logger.warning("Empty directory fetched. Not expiring anyone.")
+			return
+
+		logger.info("Matching agains {} users in directory".format(len(global_users)))
+
 		for user in User.objects.filter(is_active=True):
-			if self.directory.is_expired(user.username):
-				logger.info('User {} is expired.'.format(user.username))
-				user.is_active = False
-				user.save()
+			if user.username not in global_users:
+				self.deactivate_user(user, 'Not found in global directory')
+			elif global_users[user.username][0]:
+				self.deactivate_user(user, 'Expired in global directory on {}'.format(global_users[user.username][1]))
+
 
 	def handle(self, *args, **options):
-		self.directory = LDAP()
-		self.global_to_local()
+		self.fetch_and_expire(LDAP())
