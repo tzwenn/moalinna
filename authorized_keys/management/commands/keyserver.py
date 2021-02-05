@@ -4,10 +4,33 @@ from django.core.management.base import BaseCommand
 from authorized_keys.models import PubSSHKey
 
 import logging
+import os
 import socketserver
 
 
 logger = logging.getLogger(__name__)
+
+
+class ReusableThreadingUnixStreamServer(socketserver.ThreadingUnixStreamServer):
+
+	"""Cleans up socket file before & after usage"""
+
+	enable_unlink = True
+
+	def unlink(self):
+		if self.enable_unlink:
+			try:
+				os.unlink(self.server_address)
+			except FileNotFoundError:
+				pass
+
+	def server_bind(self):
+		self.unlink()
+		super().server_bind()
+
+	def server_close(self):
+		super().server_close()
+		self.unlink()
 
 
 class KeyRequestHandler(socketserver.StreamRequestHandler):
@@ -47,7 +70,7 @@ class Command(BaseCommand):
 	def server_and_address(self, options):
 		if options['unix']:
 			address = options['unix']
-			return socketserver.ThreadingUnixStreamServer, address, 'unix:' + address
+			return ReusableThreadingUnixStreamServer, address, 'unix:' + address
 		else:
 			address = (options['bind'], options['port'])
 			return socketserver.ThreadingTCPServer, address, 'tcp://{}:{}'.format(*address)
