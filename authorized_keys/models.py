@@ -9,7 +9,10 @@ import binascii
 import hashlib
 
 class PubSSHKey(models.Model):
-	keytype = models.CharField(max_length=32)
+
+	VALID_KEY_TYPES = ("ecdsa-sha2-nistp256", "ecdsa-sha2-nistp384", "ecdsa-sha2-nistp521", "ssh-ed25519", "ssh-dss", "ssh-rsa")
+
+	keytype = models.CharField(max_length=32, choices=[(t, t) for t in VALID_KEY_TYPES])
 	"""key type as of sshd(8)"""
 
 	pubkey = models.BinaryField()
@@ -51,6 +54,7 @@ class PubSSHKey(models.Model):
 		return "{} {}".format(self.keytype, base64.b64encode(self.pubkey).decode('ascii'))
 
 	def __str__(self):
+		# pylint: disable=no-member
 		return "PubSSHKey<{} of {}>".format(repr(self.title), self.user.username)
 
 	class Meta:
@@ -81,6 +85,10 @@ class PubSSHKey(models.Model):
 					user=user
 				)
 		return res
+
+	def save(self, **kwargs):
+		self.full_clean()
+		super().save(**kwargs)
 
 
 ###########################

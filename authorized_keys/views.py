@@ -16,6 +16,7 @@ def format_as_code(text):
 @login_required
 def index(request):
 	mypk = request.user.pk
+	# pylint: disable=no-member
 	pubsshkey_list = PubSSHKey.objects.filter(user__pk=mypk)
 	context = {
 		'pubsshkey_list': pubsshkey_list,
@@ -36,7 +37,7 @@ def add(request):
 	except KeyError:
 		return HttpResponseBadRequest("Invalid POST data")
 	except ValidationError as e:
-		messages.error(request, _("Invalid key: {}").format("<br />".join(line for line in e)))
+		messages.error(request, _("Invalid key: {}").format("<br />".join(map(str, e))))
 	except IntegrityError as e:
 		messages.error(request, _("Integrity Error: Has this key already been added?"))
 	except Exception as e:
