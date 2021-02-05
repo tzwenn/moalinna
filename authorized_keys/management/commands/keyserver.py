@@ -49,6 +49,9 @@ class Command(BaseCommand):
 
 	help = 'Runs a server, that answers for usernames send via TCP with authorized keys'
 
+	def octal_number(self, s):
+		return int(s, 8)
+
 	def add_arguments(self, parser):
 		bindoptions = parser.add_mutually_exclusive_group(required=False)
 
@@ -61,11 +64,15 @@ class Command(BaseCommand):
                          '[default: {}]'.format(default_addr))
 		bindoptions.add_argument('-u', '--unix', metavar='FILENAME',
 		            help='Specify a unix socket to bind to instead')
+
+		parser.add_argument('-m', '--umask', type=self.octal_number,
+		            metavar='UMASK',
+		            help='Specify umask when creating the unix socket')
 		
 		parser.add_argument('port', action='store',
-                    default=default_port, type=int,
-                    nargs='?',
-                    help='Specify alternate port [default: {}]'.format(default_port))
+		            default=default_port, type=int,
+		            nargs='?',
+		            help='Specify alternate port [default: {}]'.format(default_port))
 
 	def server_and_address(self, options):
 		if options['unix']:
@@ -78,7 +85,11 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		server_class, address, address_log = self.server_and_address(options)
 		logger.info('Listening on {} for key requests'.format(address_log))
+		if options['umask'] is not None:
+			old_umask = os.umask(options['umask'])
 		with server_class(address, KeyRequestHandler) as server:
+			if options['umask'] is not None:
+				os.umask(old_umask)
 			try:
 				server.serve_forever()
 			except KeyboardInterrupt:
