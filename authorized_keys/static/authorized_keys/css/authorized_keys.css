@@ -3,6 +3,6 @@
 }
 
 .ssh-fingerprint {
-	overflow: hidden;
-	word-wrap: anywhere;
+	word-wrap:  break-word;
+	word-break: break-word;
 }
